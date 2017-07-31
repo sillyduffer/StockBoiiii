@@ -34,7 +34,10 @@
         <provider
             android:name=".data.ProductProvider"
             android:authorities="com.example.android.stockboiiii"
-            android:exported="false" />
+            android:exported="false"
+            android:grantUriPermissions="true">
+        </provider>
+
     </application>
 
 </manifest>

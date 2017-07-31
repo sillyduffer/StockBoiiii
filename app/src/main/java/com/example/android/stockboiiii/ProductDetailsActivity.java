@@ -101,15 +101,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
         int newQuantity = -100;
         switch (id) {
             case R.id.details_sold:
-                if (mCurrentQuantity >= 0) {
+                if (mCurrentQuantity > 0) {
                     newQuantity = mCurrentQuantity - 1;
                     break;
                 } else {
-                    Toast.makeText(this, "Negative quantity not allowed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "None in stock, cannot make sale", Toast.LENGTH_SHORT).show();
                     break;
                 }
             case R.id.details_decrease_quantity:
-                if (mCurrentQuantity >= 0) {
+                if (mCurrentQuantity > 0) {
                     newQuantity = mCurrentQuantity - 1;
                     break;
                 } else {
@@ -122,7 +122,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
                 break;
         }
 
-        if (newQuantity != -100){
+        if (newQuantity != -100) {
             String newQuantityString = String.valueOf(newQuantity);
             ContentValues values = new ContentValues();
             values.put(ProductContract.ProductEntry.COLUMN_ITEM_QUANTITY, newQuantity);
@@ -170,7 +170,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
             Toast.makeText(this, "Product Deleted",
                     Toast.LENGTH_SHORT).show();
         }
-
         finish();
     }
 
@@ -196,27 +195,31 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        cursor.moveToFirst();
+        if (cursor == null || cursor.getCount() < 1) {
+            return;
+        }
 
-        int nameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_NAME);
-        int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_NAME);
-        int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_NAME);
-        int summaryColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_SUMMARY);
+        if (cursor.moveToFirst()) {
 
-        String productName = cursor.getString(nameColumnIndex);
-        String productPrice = cursor.getString(priceColumnIndex);
-        String productQuantity = cursor.getString(quantityColumnIndex);
-        String productSummary = cursor.getString(summaryColumnIndex);
+            int nameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_NAME);
+            int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_PRICE);
+            int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_QUANTITY);
+            int summaryColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_SUMMARY);
 
-        mCurrentQuantity = cursor.getInt(quantityColumnIndex);
-        mCurrentName = productName;
+            String productName = cursor.getString(nameColumnIndex);
+            String productPrice = cursor.getString(priceColumnIndex);
+            String productQuantity = cursor.getString(quantityColumnIndex);
+            String productSummary = cursor.getString(summaryColumnIndex);
 
-        mNameView.setText(productName);
-        mPriceView.setText(productPrice);
-        mQuantityView.setText(productQuantity);
-        mSummaryView.setText(productSummary);
+            mCurrentQuantity = cursor.getInt(quantityColumnIndex);
+            mCurrentName = productName;
 
+            mNameView.setText(productName);
+            mPriceView.setText(productPrice);
+            mQuantityView.setText(productQuantity);
+            mSummaryView.setText(productSummary);
 
+        }
     }
 
     @Override
