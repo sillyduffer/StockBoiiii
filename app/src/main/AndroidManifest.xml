@@ -16,6 +16,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddProductActivity"
+            android:parentActivityName=".CurrentStockActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CurrentStockActivity" />
+        </activity>
+        <activity android:name=".ProductDetailsActivity"
+            android:parentActivityName=".CurrentStockActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CurrentStockActivity" />
+
+        </activity>
+        <provider
+            android:name=".data.ProductProvider"
+            android:authorities="com.example.android.stockboiiii"
+            android:exported="false" />
     </application>
 
 </manifest>

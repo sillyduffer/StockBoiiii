@@ -1,4 +1,4 @@
-package com.example.android.stockboiiii.Data;
+package com.example.android.stockboiiii.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -95,12 +95,12 @@ public class ProductProvider extends ContentProvider{
         }
 
         Integer quantity = values.getAsInteger(ProductContract.ProductEntry.COLUMN_ITEM_QUANTITY);
-        if (quantity != null && quantity < 0) {
+        if (quantity == null || quantity < 0) {
             throw new IllegalArgumentException("Product requires valid quantity");
         }
 
         Integer price = values.getAsInteger(ProductContract.ProductEntry.COLUMN_ITEM_PRICE);
-        if (price != null) {
+        if (price == null) {
             throw new IllegalArgumentException("Product requires valid price");
         }
 
@@ -161,8 +161,6 @@ public class ProductProvider extends ContentProvider{
     }
 
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        // If the {@link PetEntry#COLUMN_PET_NAME} key is present,
-        // check that the name value is not null.
         if (values.containsKey(ProductContract.ProductEntry.COLUMN_ITEM_NAME)) {
             String name = values.getAsString(ProductContract.ProductEntry.COLUMN_ITEM_NAME);
             if (name == null) {

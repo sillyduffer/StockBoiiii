@@ -1,4 +1,4 @@
-package com.example.android.stockboiiii.Data;
+package com.example.android.stockboiiii.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,10 +20,10 @@ public class ProductDbHelper extends SQLiteOpenHelper{
                 + ProductContract.ProductEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ProductContract.ProductEntry.COLUMN_ITEM_NAME + " TEXT NOT NULL, "
                 + ProductContract.ProductEntry.COLUMN_ITEM_QUANTITY + " INTEGER NOT NULL, "
+                + ProductContract.ProductEntry.COLUMN_ITEM_SUMMARY + "TEXT, "
                 + ProductContract.ProductEntry.COLUMN_ITEM_PRICE + " INTEGER NOT NULL DEFAULT 0);";
 
         db.execSQL(SQL_CREATE_HABITS_TABLE);
-
     }
 
     @Override

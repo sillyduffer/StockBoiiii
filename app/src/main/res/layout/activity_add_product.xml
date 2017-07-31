@@ -24,4 +24,11 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"/>
 
+    <EditText
+        android:id="@+id/edit_summary"
+        android:hint="Summary"
+        android:inputType="text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

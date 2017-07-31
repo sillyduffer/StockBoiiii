@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.android.stockboiiii.Data.ProductContract;
+import com.example.android.stockboiiii.data.ProductContract;
 
 public class CurrentStockActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -29,7 +29,6 @@ public class CurrentStockActivity extends AppCompatActivity implements LoaderMan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_stock);
 
-        // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +39,10 @@ public class CurrentStockActivity extends AppCompatActivity implements LoaderMan
         });
 
         ListView productListView = (ListView) findViewById(R.id.list);
+
+        mCursorAdapter = new ProductCursorAdapter(this, null);
+
+        productListView.setAdapter(mCursorAdapter);
 
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);

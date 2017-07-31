@@ -14,13 +14,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.android.stockboiiii.Data.ProductContract;
+import com.example.android.stockboiiii.data.ProductContract;
 
 public class AddProductActivity extends AppCompatActivity {
 
     private EditText mNameFieldView;
     private EditText mPriceFieldView;
     private EditText mQuantityFieldView;
+    private EditText mSummaryFieldView;
     private boolean mProductHasChanged = false;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -43,22 +44,25 @@ public class AddProductActivity extends AppCompatActivity {
         mNameFieldView = (EditText) findViewById(R.id.edit_name);
         mPriceFieldView = (EditText) findViewById(R.id.edit_price);
         mQuantityFieldView = (EditText) findViewById(R.id.edit_quantity);
+        mSummaryFieldView = (EditText) findViewById(R.id.edit_summary);
 
         mNameFieldView.setOnTouchListener(mTouchListener);
         mPriceFieldView.setOnTouchListener(mTouchListener);
         mQuantityFieldView.setOnTouchListener(mTouchListener);
-
+        mSummaryFieldView.setOnTouchListener(mTouchListener);
     }
 
     private void saveProduct() {
         String nameString = mNameFieldView.getText().toString();
         String priceString = mPriceFieldView.getText().toString();
         String quantityString = mQuantityFieldView.getText().toString();
+        String summaryString = mSummaryFieldView.getText().toString();
 
         ContentValues values = new ContentValues();
         values.put(ProductContract.ProductEntry.COLUMN_ITEM_NAME, nameString);
         values.put(ProductContract.ProductEntry.COLUMN_ITEM_PRICE, priceString);
         values.put(ProductContract.ProductEntry.COLUMN_ITEM_QUANTITY, quantityString);
+        values.put(ProductContract.ProductEntry.COLUMN_ITEM_SUMMARY, summaryString);
 
         Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
 

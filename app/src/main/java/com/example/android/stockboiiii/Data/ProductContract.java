@@ -1,4 +1,4 @@
-package com.example.android.stockboiiii.Data;
+package com.example.android.stockboiiii.data;
 
 import android.content.ContentResolver;
 import android.net.Uri;
@@ -9,7 +9,7 @@ public class ProductContract {
     private ProductContract() {
     }
 
-    public static final String CONTENT_AUTHORITY = "com.example.android.stockboiiiii";
+    public static final String CONTENT_AUTHORITY = "com.example.android.stockboiiii";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
@@ -32,6 +32,8 @@ public class ProductContract {
         public final static String COLUMN_ITEM_NAME = "name";
 
         public final static String COLUMN_ITEM_PRICE = "price";
+
+        public final static String COLUMN_ITEM_SUMMARY = "summary";
 
         public final static String COLUMN_ITEM_QUANTITY = "quantity";
     }

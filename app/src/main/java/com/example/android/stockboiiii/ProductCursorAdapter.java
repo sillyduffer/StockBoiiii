@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.example.android.stockboiiii.Data.ProductContract;
+import com.example.android.stockboiiii.data.ProductContract;
 
 public class ProductCursorAdapter extends CursorAdapter{
 
 
-    public ProductCursorAdapter(Context context, Cursor c, int flags) {
-        super(context, c, flags);
+    public ProductCursorAdapter(Context context, Cursor c) {
+        super(context, c);//flags);
     }
 
     @Override
