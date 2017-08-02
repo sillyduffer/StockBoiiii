@@ -5,53 +5,75 @@
     android:layout_height="88dp"
     android:orientation="horizontal">
 
-    <TextView
-        android:layout_gravity="center_vertical"
-        android:id="@+id/name"
-        android:layout_width="0dp"
-        android:layout_weight="3"
-        android:layout_height="wrap_content"
-        tools:text="Sexy Fidget Spinner"/>
-
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="match_parent"
+        android:layout_weight="3"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Quantity: "/>
-            <TextView
-                android:id="@+id/quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="500"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="8dp"
+            tools:text="Sexy Fidget Spinner" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Price: $"/>
-            <TextView
-                android:id="@+id/price"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity: " />
+
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="500" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="5.00"/>
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price: $" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="5.00" />
+            </LinearLayout>
+
         </LinearLayout>
-
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/list_sold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:focusable="false"
+        android:text="Sale" />
 
 </LinearLayout>

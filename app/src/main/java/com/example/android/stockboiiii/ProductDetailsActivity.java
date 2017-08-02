@@ -29,6 +29,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
     private TextView mSummaryView;
     private int mCurrentQuantity;
     private String mCurrentName;
+    private String mCurrentSummary;
+    private String mCurrentPrice;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,17 +84,21 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
         mOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailSubject = "Request for more " + mCurrentName;
-                orderMore(emailSubject, mCurrentProductUri);
+                String emailSubject = "Request for more " + mCurrentName + "s";
+                String emailBody = "Product Name: " + mCurrentName
+                        + "\nDescription: " + mCurrentSummary
+                        + "\nPrice: " + mCurrentPrice
+                        + "\nCurrent Quantity: " + String.valueOf(mCurrentQuantity);
+                orderMore(emailSubject, emailBody);
             }
         });
     }
 
-    private void orderMore(String subject, Uri attachment) {
+    private void orderMore(String subject, String attachment) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("*/*");
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_STREAM, attachment);
+        intent.putExtra(Intent.EXTRA_TEXT, attachment);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
@@ -100,14 +107,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
     private void changeQuantityByOne(int id) {
         int newQuantity = -100;
         switch (id) {
-            case R.id.details_sold:
-                if (mCurrentQuantity > 0) {
-                    newQuantity = mCurrentQuantity - 1;
-                    break;
-                } else {
-                    Toast.makeText(this, "None in stock, cannot make sale", Toast.LENGTH_SHORT).show();
-                    break;
-                }
             case R.id.details_decrease_quantity:
                 if (mCurrentQuantity > 0) {
                     newQuantity = mCurrentQuantity - 1;
@@ -213,6 +212,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
 
             mCurrentQuantity = cursor.getInt(quantityColumnIndex);
             mCurrentName = productName;
+            mCurrentPrice = productPrice;
+            mCurrentSummary = productSummary;
 
             mNameView.setText(productName);
             mPriceView.setText(productPrice);

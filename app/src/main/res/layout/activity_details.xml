@@ -47,22 +47,24 @@
         android:orientation="horizontal">
 
         <Button
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            style="@android:style/ButtonBar"
             android:id="@+id/details_increase_quantity"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="+" />
 
         <Button
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="8dp"
+            style="@android:style/ButtonBar"
             android:id="@+id/details_decrease_quantity"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="-" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/details_sold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sale" />
 
 </LinearLayout>
