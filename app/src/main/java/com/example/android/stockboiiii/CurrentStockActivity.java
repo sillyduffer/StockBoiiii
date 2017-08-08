@@ -22,7 +22,7 @@ public class CurrentStockActivity extends AppCompatActivity implements LoaderMan
 
     private static final int PRODUCT_LOADER = 0;
 
-    ProductCursorAdapter mCursorAdapter;
+    private ProductCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

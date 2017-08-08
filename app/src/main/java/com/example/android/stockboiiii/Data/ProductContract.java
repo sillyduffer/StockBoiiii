@@ -6,6 +6,7 @@ import android.provider.BaseColumns;
 
 public class ProductContract {
 
+    //Empty private constructor in order that the class is not initialised.
     private ProductContract() {
     }
 
@@ -26,8 +27,6 @@ public class ProductContract {
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PRODUCTS;
 
         public final static String TABLE_NAME = "products";
-
-        public final static String _ID = BaseColumns._ID;
 
         public final static String COLUMN_ITEM_NAME = "name";
 

@@ -100,16 +100,14 @@ public class AddProductActivity extends AppCompatActivity {
         String quantityString = mQuantityFieldView.getText().toString();
         String summaryString = mSummaryFieldView.getText().toString();
 
-        double priceValue = Double.parseDouble(priceString);
-
-        double priceInCents = priceValue * 100;
-
-        String storedPriceString = String.valueOf(priceInCents);
-
         if (nameString.equals("") || priceString.equals("") || quantityString.equals("") || mImageUri == null){
             Toast.makeText(this, R.string.required_fields, Toast.LENGTH_SHORT).show();
             return;
         }
+
+        double priceValue = Double.parseDouble(priceString);
+
+        double priceInCents = priceValue * 100;
 
         String imageString = mImageUri.toString();
 
@@ -189,13 +187,7 @@ public class AddProductActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.discard_changes_prompt);
         builder.setPositiveButton(R.string.discard_confirm, discardButtonClickListener);
-        builder.setNegativeButton(R.string.continue_edit, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
+        builder.setNegativeButton(R.string.continue_edit, null);
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
