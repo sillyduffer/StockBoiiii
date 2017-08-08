@@ -42,8 +42,11 @@ public class ProductCursorAdapter extends CursorAdapter {
         int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_QUANTITY);
 
+        double priceInCents = cursor.getDouble(priceColumnIndex);
+        double priceInDollars = priceInCents / 100;
+
         String productName = cursor.getString(nameColumnIndex);
-        String productPrice = cursor.getString(priceColumnIndex);
+        String productPrice = String.valueOf(priceInDollars);
         String productQuantity = cursor.getString(quantityColumnIndex);
 
         mCurrentQuantity = cursor.getInt(quantityColumnIndex);
@@ -59,7 +62,7 @@ public class ProductCursorAdapter extends CursorAdapter {
                 if (mCurrentQuantity > 0) {
                     newQuantity = mCurrentQuantity - 1;
                 } else {
-                    Toast.makeText(v.getContext(), "None in stock, cannot make sale", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), R.string.cannot_make_sale, Toast.LENGTH_SHORT).show();
                 }
                 if (newQuantity != -100) {
                     String newQuantityString = String.valueOf(newQuantity);
@@ -70,10 +73,10 @@ public class ProductCursorAdapter extends CursorAdapter {
                     int rowsAffected = context.getContentResolver().update(currentProductUri, values, null, null);
 
                     if (rowsAffected == 0) {
-                        Toast.makeText(v.getContext(), "Error updating quantity",
+                        Toast.makeText(v.getContext(), R.string.quantity_error,
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(v.getContext(), "Quantity updated",
+                        Toast.makeText(v.getContext(), R.string.quantity_updated,
                                 Toast.LENGTH_SHORT).show();
                         mQuantityView.setText(newQuantityString);
                     }

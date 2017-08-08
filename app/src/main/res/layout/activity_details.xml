@@ -9,37 +9,36 @@
         android:id="@+id/details_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textSize="24sp"
         tools:text="Fidget Spinner" />
 
     <TextView
         android:id="@+id/details_quantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingEnd="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingStart="8dp"
         tools:text="1500" />
-
-    <TextView
-        android:id="@+id/details_summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="A blue fidget spinner with the swag you all know and love." />
 
     <TextView
         android:id="@+id/details_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingEnd="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingStart="8dp"
         tools:text="$1000.00" />
 
-    <Button
-        android:id="@+id/details_delete_product"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/details_summary"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete Product" />
-
-    <Button
-        android:id="@+id/details_order_from_supplier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Order From Supplier" />
+        android:padding="8dp"
+        tools:text="A blue fidget spinner with the swag you all know and love." />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,24 +46,82 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/details_delete_product"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="4dp"
-            style="@android:style/ButtonBar"
-            android:id="@+id/details_increase_quantity"
-            android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="+" />
+            android:text="@string/delete_product" />
 
         <Button
+            android:id="@+id/details_order_from_supplier"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="8dp"
-            style="@android:style/ButtonBar"
-            android:id="@+id/details_decrease_quantity"
-            android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="-" />
+            android:text="@string/order_from_supplier" />
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/add_quantity" />
+
+            <Button
+                android:id="@+id/details_increase_quantity"
+                style="@android:style/ButtonBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/subtract_quantity" />
+
+            <Button
+                android:id="@+id/details_decrease_quantity"
+                style="@android:style/ButtonBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Subtract" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/details_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp" />
 
 </LinearLayout>

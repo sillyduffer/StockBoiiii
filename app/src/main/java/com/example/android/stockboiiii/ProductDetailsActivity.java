@@ -5,18 +5,26 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.stockboiiii.data.ProductContract;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ProductDetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -27,6 +35,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
     private TextView mPriceView;
     private TextView mQuantityView;
     private TextView mSummaryView;
+    private ImageView mImageView;
     private int mCurrentQuantity;
     private String mCurrentName;
     private String mCurrentSummary;
@@ -42,11 +51,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
         mPriceView = (TextView) findViewById(R.id.details_price);
         mQuantityView = (TextView) findViewById(R.id.details_quantity);
         mSummaryView = (TextView) findViewById(R.id.details_summary);
+        mImageView = (ImageView) findViewById(R.id.details_image_view);
         Button mDeleteButton = (Button) findViewById(R.id.details_delete_product);
         Button mOrderButton = (Button) findViewById(R.id.details_order_from_supplier);
         Button mIncreaseButton = (Button) findViewById(R.id.details_increase_quantity);
         Button mDecreaseButton = (Button) findViewById(R.id.details_decrease_quantity);
-        Button mSaleButton = (Button) findViewById(R.id.details_sold);
 
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
@@ -57,13 +66,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
             @Override
             public void onClick(View v) {
                 showDeleteConfirmationDialog();
-            }
-        });
-
-        mSaleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeQuantityByOne(v.getId());
             }
         });
 
@@ -172,6 +174,58 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
         finish();
     }
 
+
+    /**
+     * Used this repository: https://github.com/crlsndrsjmnz/MyShareImageExample as reference
+     * Credit is due to Carlos Jimenez
+     */
+    public Bitmap loadBitmap(Uri imageUri) {
+
+        if (imageUri == null || imageUri.toString().isEmpty()){
+            return null;
+        }
+
+        int viewWidth = mImageView.getWidth();
+        int viewHeight = mImageView.getHeight();
+
+        InputStream inputStream = null;
+        try {
+            inputStream = this.getContentResolver().openInputStream(imageUri);
+
+            BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+            bitmapOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(inputStream, null, bitmapOptions);
+            inputStream.close();
+
+            int imageWidth = bitmapOptions.outWidth;
+            int imageHeight = bitmapOptions.outHeight;
+
+            int scaleFactor = Math.min(imageWidth / viewWidth, imageHeight / viewHeight);
+
+            bitmapOptions.inJustDecodeBounds = false;
+            bitmapOptions.inSampleSize = scaleFactor;
+            bitmapOptions.inPurgeable = true;
+
+            inputStream = this.getContentResolver().openInputStream(imageUri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, bitmapOptions);
+            inputStream.close();
+            return bitmap;
+
+        } catch (FileNotFoundException fne) {
+            Log.e("Details", "Could not load image.", fne);
+            return null;
+        } catch (Exception e) {
+            Log.e("Details", "Could not load image.", e);
+            return null;
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
@@ -180,7 +234,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
                 ProductContract.ProductEntry.COLUMN_ITEM_NAME,
                 ProductContract.ProductEntry.COLUMN_ITEM_QUANTITY,
                 ProductContract.ProductEntry.COLUMN_ITEM_PRICE,
-                ProductContract.ProductEntry.COLUMN_ITEM_SUMMARY
+                ProductContract.ProductEntry.COLUMN_ITEM_SUMMARY,
+                ProductContract.ProductEntry.COLUMN_ITEM_IMAGE
         };
 
         return new android.support.v4.content.CursorLoader(this,
@@ -204,11 +259,20 @@ public class ProductDetailsActivity extends AppCompatActivity implements LoaderM
             int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_QUANTITY);
             int summaryColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_SUMMARY);
+            int imageColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_ITEM_IMAGE);
+
+            double priceInCents = cursor.getDouble(priceColumnIndex);
+            double priceInDollars = priceInCents/100;
 
             String productName = cursor.getString(nameColumnIndex);
-            String productPrice = cursor.getString(priceColumnIndex);
-            String productQuantity = cursor.getString(quantityColumnIndex);
+            String productPrice = getString(R.string.dollar_sign) + String.valueOf(priceInDollars);
+            String productQuantity = cursor.getString(quantityColumnIndex) + getString(R.string.in_stock);
             String productSummary = cursor.getString(summaryColumnIndex);
+            String productImage = cursor.getString(imageColumnIndex);
+
+            Uri imageUri = Uri.parse(productImage);
+
+            mImageView.setImageBitmap(loadBitmap(imageUri));
 
             mCurrentQuantity = cursor.getInt(quantityColumnIndex);
             mCurrentName = productName;

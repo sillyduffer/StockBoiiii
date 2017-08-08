@@ -10,16 +10,16 @@
         android:id="@+id/list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp" />
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
 
     <RelativeLayout
         android:id="@+id/empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageView
             android:id="@+id/out_of_stock_image"
@@ -34,8 +34,8 @@
             android:layout_below="@+id/out_of_stock_image"
             android:layout_centerHorizontal="true"
             android:paddingTop="16dp"
-            android:text="Currently No Stock\nAdd a an item by clicking the plus button."
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:text="@string/currently_no_stock_nadd_a_an_item_by_clicking_the_plus_button"
+            android:textAppearance="?android:textAppearanceMedium" />
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -45,7 +45,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 </RelativeLayout>

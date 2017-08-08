@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/edit_name"
-        android:hint="Name"
-        android:inputType="textCapWords"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
+        android:hint="@string/name"
+        android:inputType="textCapWords" />
 
     <EditText
         android:id="@+id/edit_quantity"
-        android:hint="Quantity"
-        android:inputType="number"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
+        android:hint="@string/edit_quantity"
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/edit_price"
-        android:hint="Price"
-        android:inputType="number"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
+        android:hint="@string/edit_price"
+        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/edit_summary"
-        android:hint="Summary"
-        android:inputType="text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_summary"
+        android:inputType="text" />
 
+    <Button
+        android:id="@+id/add_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_image" />
 </LinearLayout>

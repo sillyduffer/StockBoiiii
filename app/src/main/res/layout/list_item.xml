@@ -38,7 +38,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quantity: " />
+                    android:text="@string/quantity" />
 
                 <TextView
                     android:id="@+id/quantity"
@@ -55,7 +55,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price: $" />
+                    android:text="@string/price" />
 
                 <TextView
                     android:id="@+id/price"
@@ -74,6 +74,6 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:focusable="false"
-        android:text="Sale" />
+        android:text="@string/sale" />
 
 </LinearLayout>

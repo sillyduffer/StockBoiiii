@@ -1,9 +1,12 @@
 package com.example.android.stockboiiii;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,10 +22,15 @@ import com.example.android.stockboiiii.data.ProductContract;
 
 public class AddProductActivity extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 1000;
+
     private EditText mNameFieldView;
     private EditText mPriceFieldView;
     private EditText mQuantityFieldView;
     private EditText mSummaryFieldView;
+
+    private Uri mImageUri;
+
     private boolean mProductHasChanged = false;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -45,11 +54,44 @@ public class AddProductActivity extends AppCompatActivity {
         mPriceFieldView = (EditText) findViewById(R.id.edit_price);
         mQuantityFieldView = (EditText) findViewById(R.id.edit_quantity);
         mSummaryFieldView = (EditText) findViewById(R.id.edit_summary);
+        Button mImageFieldButton = (Button) findViewById(R.id.add_image_button);
 
         mNameFieldView.setOnTouchListener(mTouchListener);
         mPriceFieldView.setOnTouchListener(mTouchListener);
         mQuantityFieldView.setOnTouchListener(mTouchListener);
         mSummaryFieldView.setOnTouchListener(mTouchListener);
+        mImageFieldButton.setOnTouchListener(mTouchListener);
+
+        mImageFieldButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
+    }
+
+    private void selectImage() {
+        Intent imageIntent;
+
+        if (Build.VERSION.SDK_INT < 19) {
+            imageIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        } else {
+            imageIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            imageIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        }
+
+        imageIntent.setType("image/*");
+        startActivityForResult(Intent.createChooser(imageIntent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+
+            if (resultData != null) {
+                mImageUri = resultData.getData();
+            }
+        }
     }
 
     private void saveProduct() {
@@ -58,20 +100,35 @@ public class AddProductActivity extends AppCompatActivity {
         String quantityString = mQuantityFieldView.getText().toString();
         String summaryString = mSummaryFieldView.getText().toString();
 
+        double priceValue = Double.parseDouble(priceString);
+
+        double priceInCents = priceValue * 100;
+
+        String storedPriceString = String.valueOf(priceInCents);
+
+        if (nameString.equals("") || priceString.equals("") || quantityString.equals("") || mImageUri == null){
+            Toast.makeText(this, R.string.required_fields, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String imageString = mImageUri.toString();
+
         ContentValues values = new ContentValues();
         values.put(ProductContract.ProductEntry.COLUMN_ITEM_NAME, nameString);
-        values.put(ProductContract.ProductEntry.COLUMN_ITEM_PRICE, priceString);
+        values.put(ProductContract.ProductEntry.COLUMN_ITEM_PRICE, priceInCents);
         values.put(ProductContract.ProductEntry.COLUMN_ITEM_QUANTITY, quantityString);
         values.put(ProductContract.ProductEntry.COLUMN_ITEM_SUMMARY, summaryString);
+        values.put(ProductContract.ProductEntry.COLUMN_ITEM_IMAGE, imageString);
 
         Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
 
         if (newUri == null) {
-            Toast.makeText(this, "Save Failed",
+            Toast.makeText(this, R.string.failed_save,
                     Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Product Saved",
+            Toast.makeText(this, R.string.successful_save,
                     Toast.LENGTH_SHORT).show();
+            mProductHasChanged = false;
         }
     }
 
@@ -130,9 +187,9 @@ public class AddProductActivity extends AppCompatActivity {
             DialogInterface.OnClickListener discardButtonClickListener) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Discard Changes and Lose Product?");
-        builder.setPositiveButton("Discard", discardButtonClickListener);
-        builder.setNegativeButton("Keep Editing", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.discard_changes_prompt);
+        builder.setPositiveButton(R.string.discard_confirm, discardButtonClickListener);
+        builder.setNegativeButton(R.string.continue_edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (dialog != null) {
                     dialog.dismiss();

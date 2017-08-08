@@ -36,5 +36,7 @@ public class ProductContract {
         public final static String COLUMN_ITEM_SUMMARY = "summary";
 
         public final static String COLUMN_ITEM_QUANTITY = "quantity";
+
+        public final static String COLUMN_ITEM_IMAGE = "image";
     }
 }
